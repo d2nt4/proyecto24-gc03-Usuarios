@@ -1,8 +1,11 @@
 package org.openapitools.api;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import org.openapitools.model.Gestor;
 
 
+import org.openapitools.services.GestorDBService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,11 +33,12 @@ import javax.annotation.Generated;
 @Controller
 @RequestMapping("${openapi.aPIUsuarios.base-path:/StreamHub}")
 public class GestoresApiController implements GestoresApi {
-
+    private final GestorDBService gestorDBService;
     private final NativeWebRequest request;
 
     @Autowired
-    public GestoresApiController(NativeWebRequest request) {
+    public GestoresApiController(GestorDBService gestorDBService, NativeWebRequest request) {
+        this.gestorDBService = gestorDBService;
         this.request = request;
     }
 
@@ -42,5 +46,4 @@ public class GestoresApiController implements GestoresApi {
     public Optional<NativeWebRequest> getRequest() {
         return Optional.ofNullable(request);
     }
-
 }
