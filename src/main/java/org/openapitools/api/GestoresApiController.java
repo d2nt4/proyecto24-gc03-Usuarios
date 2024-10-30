@@ -46,4 +46,59 @@ public class GestoresApiController implements GestoresApi {
     public Optional<NativeWebRequest> getRequest() {
         return Optional.ofNullable(request);
     }
+
+    @Override
+    public ResponseEntity<List<Gestor>> gestoresGet() {
+        List<Gestor> gestors = gestorDBService.findAllGestores();
+        return ResponseEntity.ok(gestors);
+    }
+
+    @Override
+    public ResponseEntity<Gestor> gestoresIdDeUsuarioGet(Integer idDeUsuario) {
+        Optional<Gestor> gestorOptional = gestorDBService.findGestorById(idDeUsuario);
+
+        if (gestorOptional.isPresent()) {
+            return ResponseEntity.ok(gestorOptional.get()); // Return 200 with the Gestor data
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 if not found
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> gestoresPost(Gestor gestor) {
+        // Call the service to save the new Gestor
+        boolean isCreated = gestorDBService.createGestor(gestor);
+
+        if (isCreated) {
+            // Return 201 Created response
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } else {
+            // Handle cases where creation failed (e.g., due to validation)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> gestoresIdDeUsuarioDelete(Integer idDeUsuario) {
+        // Call the service to delete the gestor by ID
+        boolean isDeleted = gestorDBService.deleteGestorById(idDeUsuario); // Assuming you have a reference to gestorService
+
+        if (isDeleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> gestoresIdDeUsuarioPut(Integer idDeUsuario, Gestor gestor) {
+        // Call the service to update the gestor
+        boolean isUpdated = gestorDBService.updateGestor(idDeUsuario, gestor); // Assuming you have a reference to gestorService
+
+        if (isUpdated) {
+            return new ResponseEntity<>(HttpStatus.OK); // 200 OK
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
 }
