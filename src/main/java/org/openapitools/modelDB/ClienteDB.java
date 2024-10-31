@@ -1,5 +1,7 @@
 package org.openapitools.modelDB;
 
+import org.openapitools.model.Cliente;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -26,15 +28,15 @@ public class ClienteDB {
 	protected ClienteDB() {
 	}
 
-	public ClienteDB(Integer id, String nombre, String apellidos, LocalDate fechaDeNacimiento, String email, String password, String numeroTarjetaDeCredito, String ccv) {
-		this.id = id;
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.fechaDeNacimiento = fechaDeNacimiento;
-		this.email = email;
-		this.password = password;
-		this.numeroTarjetaDeCredito = numeroTarjetaDeCredito;
-		this.ccv = ccv;
+	public ClienteDB(Cliente cliente) {
+		this.id = cliente.getId();
+		this.nombre = cliente.getNombre();
+		this.apellidos = cliente.getApellidos();
+		this.fechaDeNacimiento = LocalDate.parse(cliente.getFechaDeNacimiento());
+		this.email = cliente.getEmail();
+		this.password = cliente.getPassword();
+		this.numeroTarjetaDeCredito = cliente.getNumeroTarjetaDeCredito();
+		this.ccv = cliente.getCcv();
 	}
 
 	public Integer getId() {
