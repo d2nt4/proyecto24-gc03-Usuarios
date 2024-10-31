@@ -1,6 +1,8 @@
 package org.openapitools.model;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,6 +11,7 @@ import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.openapitools.modelDB.GestorDB;
 
 
 import java.util.*;
@@ -38,11 +41,29 @@ public class Gestor {
     return this;
   }
 
+  public Gestor(Integer id, String nombre, String apellidos, String fechaDeNacimiento, String email, String password) {
+    this.id = id;
+    this.nombre = nombre;
+    this.apellidos = apellidos;
+    this.fechaDeNacimiento = fechaDeNacimiento;
+    this.email = email;
+    this.password = password;
+  }
+
+  public Gestor(GestorDB gestorDB) {
+    id = gestorDB.getId();
+    nombre = gestorDB.getNombre();
+    apellidos = gestorDB.getApellidos();
+    fechaDeNacimiento = gestorDB.getFechaDeNacimiento().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    email = gestorDB.getEmail();
+    password = gestorDB.getPassword();
+  }
+
   /**
    * Get id
    * @return id
    */
-  
+
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Integer getId() {
@@ -62,7 +83,7 @@ public class Gestor {
    * Get nombre
    * @return nombre
    */
-  
+
   @Schema(name = "nombre", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nombre")
   public String getNombre() {
@@ -82,7 +103,7 @@ public class Gestor {
    * Get apellidos
    * @return apellidos
    */
-  
+
   @Schema(name = "apellidos", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("apellidos")
   public String getApellidos() {
@@ -102,7 +123,7 @@ public class Gestor {
    * Get fechaDeNacimiento
    * @return fechaDeNacimiento
    */
-  
+
   @Schema(name = "fecha_de_nacimiento", example = "DD/MM/AAAA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fecha_de_nacimiento")
   public String getFechaDeNacimiento() {
@@ -122,7 +143,7 @@ public class Gestor {
    * Get email
    * @return email
    */
-  
+
   @Schema(name = "email", example = "nombre@email.com", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
   public String getEmail() {
@@ -142,7 +163,7 @@ public class Gestor {
    * Get password
    * @return password
    */
-  
+
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
   public String getPassword() {
@@ -163,11 +184,11 @@ public class Gestor {
     }
     Gestor gestor = (Gestor) o;
     return Objects.equals(this.id, gestor.id) &&
-        Objects.equals(this.nombre, gestor.nombre) &&
-        Objects.equals(this.apellidos, gestor.apellidos) &&
-        Objects.equals(this.fechaDeNacimiento, gestor.fechaDeNacimiento) &&
-        Objects.equals(this.email, gestor.email) &&
-        Objects.equals(this.password, gestor.password);
+            Objects.equals(this.nombre, gestor.nombre) &&
+            Objects.equals(this.apellidos, gestor.apellidos) &&
+            Objects.equals(this.fechaDeNacimiento, gestor.fechaDeNacimiento) &&
+            Objects.equals(this.email, gestor.email) &&
+            Objects.equals(this.password, gestor.password);
   }
 
   @Override
