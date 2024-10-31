@@ -36,8 +36,8 @@ public class ClientesApiController implements ClientesApi {
 
     @Autowired
     public ClientesApiController(ClienteDBService clienteDBService, NativeWebRequest request) {
-		this.clienteDBService = clienteDBService;
-		this.request = request;
+        this.clienteDBService = clienteDBService;
+        this.request = request;
     }
 
     @Override
@@ -47,8 +47,58 @@ public class ClientesApiController implements ClientesApi {
 
     @Override
     public ResponseEntity<List<Cliente>> clientesGet() {
-        clienteDBService.printAllClientes();
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        List<Cliente> clientes = clienteDBService.findAllClientes();
+        return ResponseEntity.ok(clientes);
     }
+
+    @Override
+    public ResponseEntity<Cliente> clientesIdDeUsuarioGet(Integer idDeUsuario) {
+        Optional<Cliente> clienteOptional = clienteDBService.findClienteById(idDeUsuario);
+
+        if (clienteOptional.isPresent()) {
+            return ResponseEntity.ok(clienteOptional.get()); // Return 200 with the Cliente data
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 if not found
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> clientesPost(Cliente cliente) {
+        // Call the service to save the new Cliente
+        boolean isCreated = clienteDBService.createCliente(cliente);
+
+        if (isCreated) {
+            // Return 201 Created response
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } else {
+            // Handle cases where creation failed (e.g., due to validation)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> clientesIdDeUsuarioDelete(Integer idDeUsuario) {
+        // Call the service to delete the cliente by ID
+        boolean isDeleted = clienteDBService.deleteClienteById(idDeUsuario);
+
+        if (isDeleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> clientesIdDeUsuarioPut(Integer idDeUsuario, Cliente cliente) {
+        // Call the service to update the cliente
+        boolean isUpdated = clienteDBService.updateCliente(idDeUsuario, cliente);
+
+        if (isUpdated) {
+            return new ResponseEntity<>(HttpStatus.OK); // 200 OK
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
+
 
 }

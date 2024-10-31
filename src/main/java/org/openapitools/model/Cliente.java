@@ -1,6 +1,7 @@
 package org.openapitools.model;
 
 import java.net.URI;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.openapitools.modelDB.ClienteDB;
 
 
 import java.util.*;
@@ -41,6 +43,18 @@ public class Cliente {
     private String numeroTarjetaDeCredito;
 
     private String ccv;
+
+    public Cliente(ClienteDB clienteDB) {
+        this.id = clienteDB.getId();
+        this.nombre = clienteDB.getNombre();
+        this.apellidos = clienteDB.getApellidos();
+        this.fechaDeNacimiento = clienteDB.getFechaDeNacimiento()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.email = clienteDB.getEmail();
+        this.password = clienteDB.getPassword();
+        this.numeroTarjetaDeCredito = clienteDB.getNumeroTarjetaDeCredito();
+        this.ccv = clienteDB.getCcv();
+    }
 
     public Cliente id(Integer id) {
         this.id = id;
