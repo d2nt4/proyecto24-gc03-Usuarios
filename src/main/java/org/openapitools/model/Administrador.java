@@ -1,17 +1,11 @@
 package org.openapitools.model;
 
-import java.net.URI;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.openapitools.modelDB.AdministradorDB;
 
-
-import java.util.*;
 import javax.annotation.Generated;
 
 /**
@@ -38,11 +32,29 @@ public class Administrador {
     return this;
   }
 
+  public Administrador(Integer id, String nombre, String apellidos, String fechaDeNacimiento, String email, String password) {
+    this.id = id;
+    this.nombre = nombre;
+    this.apellidos = apellidos;
+    this.fechaDeNacimiento = fechaDeNacimiento;
+    this.email = email;
+    this.password = password;
+  }
+
+  public Administrador(AdministradorDB adminDB) {
+    id = adminDB.getId();
+    nombre = adminDB.getNombre();
+    apellidos = adminDB.getApellidos();
+    fechaDeNacimiento = adminDB.getFechaDeNacimiento().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    email = adminDB.getEmail();
+    password = adminDB.getPassword();
+  }
+
   /**
    * Get id
    * @return id
    */
-  
+
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Integer getId() {
@@ -62,7 +74,7 @@ public class Administrador {
    * Get nombre
    * @return nombre
    */
-  
+
   @Schema(name = "nombre", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nombre")
   public String getNombre() {
@@ -82,7 +94,7 @@ public class Administrador {
    * Get apellidos
    * @return apellidos
    */
-  
+
   @Schema(name = "apellidos", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("apellidos")
   public String getApellidos() {
@@ -102,7 +114,7 @@ public class Administrador {
    * Get fechaDeNacimiento
    * @return fechaDeNacimiento
    */
-  
+
   @Schema(name = "fecha_de_nacimiento", example = "DD/MM/AAAA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fecha_de_nacimiento")
   public String getFechaDeNacimiento() {
@@ -122,7 +134,7 @@ public class Administrador {
    * Get email
    * @return email
    */
-  
+
   @Schema(name = "email", example = "nombre@email.com", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
   public String getEmail() {
@@ -142,7 +154,7 @@ public class Administrador {
    * Get password
    * @return password
    */
-  
+
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
   public String getPassword() {
@@ -163,11 +175,11 @@ public class Administrador {
     }
     Administrador administrador = (Administrador) o;
     return Objects.equals(this.id, administrador.id) &&
-        Objects.equals(this.nombre, administrador.nombre) &&
-        Objects.equals(this.apellidos, administrador.apellidos) &&
-        Objects.equals(this.fechaDeNacimiento, administrador.fechaDeNacimiento) &&
-        Objects.equals(this.email, administrador.email) &&
-        Objects.equals(this.password, administrador.password);
+            Objects.equals(this.nombre, administrador.nombre) &&
+            Objects.equals(this.apellidos, administrador.apellidos) &&
+            Objects.equals(this.fechaDeNacimiento, administrador.fechaDeNacimiento) &&
+            Objects.equals(this.email, administrador.email) &&
+            Objects.equals(this.password, administrador.password);
   }
 
   @Override
@@ -200,4 +212,3 @@ public class Administrador {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
