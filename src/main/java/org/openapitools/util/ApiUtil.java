@@ -1,4 +1,4 @@
-package org.openapitools.api;
+package org.openapitools.util;
 
 import org.springframework.web.context.request.NativeWebRequest;
 

@@ -1,10 +1,9 @@
-package org.openapitools.services;
+package org.openapitools.service;
 
 import org.openapitools.model.Cliente;
-import org.openapitools.modelDB.ClienteDB;
-import org.openapitools.repositories.ClienteDBRepository;
+import org.openapitools.entity.ClienteDB;
+import org.openapitools.repository.ClienteDBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package org.openapitools.modelDB;
+package org.openapitools.entity;
 
 import org.openapitools.model.Cliente;
 
