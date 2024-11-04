@@ -1,7 +1,8 @@
-package org.openapitools.api;
+package org.openapitools.controller;
 
+import org.openapitools.api.AdminApi;
 import org.openapitools.model.Administrador;
-import org.openapitools.services.AdministradorDBService;
+import org.openapitools.service.AdministradorDBService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

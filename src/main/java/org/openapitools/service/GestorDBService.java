@@ -1,8 +1,8 @@
-package org.openapitools.services;
+package org.openapitools.service;
 
 import org.openapitools.model.Gestor;
-import org.openapitools.modelDB.GestorDB;
-import org.openapitools.repositories.GestorDBRepository;
+import org.openapitools.entity.GestorDB;
+import org.openapitools.repository.GestorDBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

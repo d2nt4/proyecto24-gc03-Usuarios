@@ -1,8 +1,8 @@
-package org.openapitools.services;
+package org.openapitools.service;
 
 import org.openapitools.model.Administrador;
-import org.openapitools.modelDB.AdministradorDB;
-import org.openapitools.repositories.AdministradorDBRepository;
+import org.openapitools.entity.AdministradorDB;
+import org.openapitools.repository.AdministradorDBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

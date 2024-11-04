@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.openapitools.modelDB.AdministradorDB;
+import org.openapitools.entity.AdministradorDB;
 
 import javax.annotation.Generated;
 

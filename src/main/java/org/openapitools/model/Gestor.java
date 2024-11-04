@@ -1,20 +1,12 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.openapitools.modelDB.GestorDB;
+import org.openapitools.entity.GestorDB;
 
 
-import java.util.*;
 import javax.annotation.Generated;
 
 /**
