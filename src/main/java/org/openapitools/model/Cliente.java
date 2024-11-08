@@ -47,6 +47,9 @@ public class Cliente {
         this.ccv = clienteDB.getCcv();
     }
 
+    public Cliente() {
+    }
+
     public Cliente id(Integer id) {
         this.id = id;
         return this;

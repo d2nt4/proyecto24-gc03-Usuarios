@@ -4,6 +4,7 @@ import org.openapitools.model.Cliente;
 import org.openapitools.entity.ClienteDB;
 import org.openapitools.repository.ClienteDBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,10 +16,12 @@ import java.util.stream.Collectors;
 public class ClienteDBService {
 
 	private final ClienteDBRepository clienteDBRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public ClienteDBService(ClienteDBRepository clienteDBRepository) {
+	public ClienteDBService(ClienteDBRepository clienteDBRepository, PasswordEncoder passwordEncoder) {
 		this.clienteDBRepository = clienteDBRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	private Cliente convertToCliente(ClienteDB clienteDB) {
@@ -26,12 +29,13 @@ public class ClienteDBService {
 	}
 
 	// Create a new Cliente
-	public boolean createCliente(Cliente Cliente) {
+	public boolean createCliente(Cliente cliente) {
 		try {
-			// Convert Cliente to ClienteDB
-			ClienteDB ClienteDB = new ClienteDB(Cliente);
-			// Save the ClienteDB entity
-			clienteDBRepository.save(ClienteDB);
+			ClienteDB clienteDB = new ClienteDB(cliente);
+			String encodedPassword = passwordEncoder.encode(cliente.getPassword());
+
+			clienteDB.setPassword(encodedPassword);
+			clienteDBRepository.save(clienteDB);
 			return true; // Indicate success
 		} catch (Exception e) {
 			// Log exception if needed

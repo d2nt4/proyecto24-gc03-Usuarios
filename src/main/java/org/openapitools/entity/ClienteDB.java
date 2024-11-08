@@ -7,12 +7,10 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-//Esto especifica que la tabla se llama "Cliente". Si no estuviera, SpringJPA asumiría que la tabla
-//se llama "ClienteDB".
 @Table(name = "Cliente")
 public class ClienteDB {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
 	private String apellidos;
@@ -24,7 +22,6 @@ public class ClienteDB {
 	private String numeroTarjetaDeCredito;
 	private String ccv;
 
-	//Parece ser que JPA necesita este constructor.
 	protected ClienteDB() {
 	}
 
