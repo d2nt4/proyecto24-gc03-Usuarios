@@ -56,6 +56,7 @@ public class JwtUtil {
                 .getSubject();
     }
 
+    // Método para extraer el rol del token
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
     }
@@ -66,8 +67,8 @@ public class JwtUtil {
         return (extractedEmail.equals(email) && !isTokenExpired(token));
     }
 
-    // Verifica si el token ha expirado
-    private boolean isTokenExpired(String token) {
+    // Verificar si el token ha expirado
+    public boolean isTokenExpired(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
