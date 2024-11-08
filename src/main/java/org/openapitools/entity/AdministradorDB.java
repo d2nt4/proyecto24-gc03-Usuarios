@@ -31,7 +31,6 @@ public class AdministradorDB {
 	}
 
 	protected AdministradorDB() {
-        //Empty constructor
     }
 
 	public AdministradorDB(Administrador admin) {

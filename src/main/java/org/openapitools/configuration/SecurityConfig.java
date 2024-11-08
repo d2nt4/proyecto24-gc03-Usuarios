@@ -37,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/authenticate", "/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/authenticate", "/StreamHub/clientes/register", "/request").permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/swagger-resources/**",
                         "/swagger-ui/**",
@@ -44,8 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**"
                 ).permitAll()
                 .antMatchers(HttpMethod.GET, "/StreamHub/admin/**").hasAuthority("ROLE_ADMINISTRADOR")
+                .antMatchers(HttpMethod.POST, "/StreamHub/admin/**").hasAuthority("ROLE_ADMINISTRADOR")
                 .antMatchers(HttpMethod.GET, "/StreamHub/gestores/**").hasAuthority("ROLE_ADMINISTRADOR")
-                .antMatchers(HttpMethod.GET, "/StreamHub/clientes/**").hasAuthority("ROLE_GESTOR")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
