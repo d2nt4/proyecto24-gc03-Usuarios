@@ -53,6 +53,8 @@ public class ClienteDBService {
 			updatedClienteDB.setFechaDeNacimiento(LocalDate.parse(Cliente.getFechaDeNacimiento()));
 			updatedClienteDB.setEmail(Cliente.getEmail());
 			updatedClienteDB.setPassword(Cliente.getPassword());
+			updatedClienteDB.setNumeroTarjetaDeCredito(Cliente.getNumeroTarjetaDeCredito());
+			updatedClienteDB.setCcv(Cliente.getCcv());
 
 			clienteDBRepository.save(updatedClienteDB); // Save the updated ClienteDB
 			return true; // Indicate successful update
