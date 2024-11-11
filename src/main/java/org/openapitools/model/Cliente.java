@@ -47,7 +47,15 @@ public class Cliente {
         this.ccv = clienteDB.getCcv();
     }
 
-    public Cliente() {
+    public Cliente(Integer id, String nombre, String apellidos, String fechaDeNacimiento, String email, String password, String numeroTarjetaDeCredito, String ccv) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.fechaDeNacimiento = fechaDeNacimiento;
+        this.email = email;
+        this.password = password;
+        this.numeroTarjetaDeCredito = numeroTarjetaDeCredito;
+        this.ccv = ccv;
     }
 
     public Cliente id(Integer id) {
