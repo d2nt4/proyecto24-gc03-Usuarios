@@ -52,7 +52,6 @@ public class AdminApiController implements AdminApi {
     }
 
     @Override
-    @PostMapping
     public ResponseEntity<Void> adminPost(Administrador admin) {
         boolean isCreated = adminDBService.postAdministrador(admin);
 
