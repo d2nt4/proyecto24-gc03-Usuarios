@@ -18,15 +18,14 @@ public class JwtUtil {
 
     private final SecretKey secretKey;
 
-    // Inyectar el valor de la clave secreta desde application.properties
     public JwtUtil(@Value("${jwt.secret}") String secret) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    // Método para generar el token JWT e incluir el rol
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, Long userId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", userDetails.getAuthorities().iterator().next().getAuthority());
+        claims.put("userId", userId);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -37,7 +36,20 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Método para extraer todos los claims del token
+    public String generatePasswordResetToken(String email) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("purpose", "RESET_PASSWORD");
+        claims.put("role", "ROLE_PASSWORD_RESET");
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(email)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000)) // 5 minutos de expiración
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
@@ -46,7 +58,6 @@ public class JwtUtil {
                 .getBody();
     }
 
-    // Método para extraer el email del token
     public String extractEmail(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
@@ -56,18 +67,21 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    // Método para extraer el rol del token
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
     }
 
-    // Método para validar el token
-    public boolean isTokenValid(String token, String email) {
-        String extractedEmail = extractEmail(token);
-        return (extractedEmail.equals(email) && !isTokenExpired(token));
+    public Long extractUserId(String token) {
+        return extractAllClaims(token).get("userId", Long.class);
     }
 
-    // Verificar si el token ha expirado
+
+    public boolean isTokenValid(String token, String email, Long userId) {
+        String extractedEmail = extractEmail(token);
+        Long extractedUserId = extractUserId(token);
+        return (extractedEmail.equals(email) && extractedUserId.equals(userId) && !isTokenExpired(token));
+    }
+
     public boolean isTokenExpired(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
