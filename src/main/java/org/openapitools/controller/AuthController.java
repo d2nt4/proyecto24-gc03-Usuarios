@@ -4,6 +4,7 @@ import org.apache.commons.mail.EmailException;
 import org.openapitools.model.AuthRequest;
 import org.openapitools.model.AuthResponse;
 import org.openapitools.model.PasswordRequest;
+import org.openapitools.model.PasswordResetRequest;
 import org.openapitools.service.CustomUserDetailsService;
 import org.openapitools.service.EmailService;
 import org.openapitools.util.JwtUtil;
@@ -33,34 +34,28 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public AuthResponse createToken(@RequestBody AuthRequest authRequest) {
-        // Autenticar al usuario
         UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
+        Long userId = userDetailsService.getUserIdByEmail(authRequest.getEmail());
 
-        // Comparar la contraseña ingresada con el hash almacenado
         if (!passwordEncoder.matches(authRequest.getPassword(), userDetails.getPassword())) {
             throw new RuntimeException("Contraseña incorrecta");
         }
 
-        // Generar el token usando UserDetails
-        final String jwt = jwtUtil.generateToken(userDetails);
+        final String jwt = jwtUtil.generateToken(userDetails, userId);
         return new AuthResponse(jwt);
     }
 
     @PostMapping("/request")
     public String requestPasswordReset(@RequestBody PasswordRequest passwordRequest) {
         try {
-            // Cargar el usuario para verificar si existe
             UserDetails userDetails = userDetailsService.loadUserByUsername(passwordRequest.getEmail());
 
             if (userDetails == null) {
-                // Verificamos explícitamente que el usuario no sea null
                 return "El correo electrónico no está registrado.";
             }
 
-            // Generar el token de restablecimiento de contraseña
             String resetToken = jwtUtil.generatePasswordResetToken(passwordRequest.getEmail());
 
-            // Enviar el correo de restablecimiento
             emailService.sendPasswordResetEmail(passwordRequest.getEmail(), resetToken);
 
             return "Correo de restablecimiento enviado. Revisa tu bandeja de entrada.";
@@ -73,10 +68,8 @@ public class AuthController {
         }
     }
 
-
-    @PutMapping("/reset-password")
-    public String resetPassword(@RequestParam("token") String token, @RequestBody String newPassword) {
-        // Extraer el email del token
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam("token") String token, @RequestBody PasswordResetRequest passwordResetRequest) {
         String email;
         try {
             email = jwtUtil.extractEmail(token);
@@ -84,13 +77,13 @@ public class AuthController {
             return "Token inválido.";
         }
 
-        // Validar el token
         if (email == null || jwtUtil.isTokenExpired(token)) {
             return "El enlace de restablecimiento ha expirado o es inválido.";
         }
 
-        // Cambiar la contraseña del usuario
-        userDetailsService.updatePassword(email, newPassword);
+        System.out.println("New Password: " + passwordResetRequest.getNewPassword());
+
+        userDetailsService.updatePassword(email, passwordResetRequest.getNewPassword());
 
         return "Contraseña restablecida con éxito.";
     }
