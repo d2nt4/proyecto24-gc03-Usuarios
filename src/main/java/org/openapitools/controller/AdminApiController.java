@@ -18,7 +18,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-10-17T11:57:22.023517+02:00[Europe/Madrid]", comments = "Generator version: 7.9.0")
 @Controller
-@RequestMapping("${openapi.aPIUsuarios.base-path:/StreamHub/admin}")
+@RequestMapping("${openapi.aPIUsuarios.base-path:/StreamHub}")
 public class AdminApiController implements AdminApi {
     private final AdministradorDBService adminDBService;
     private final NativeWebRequest request;
