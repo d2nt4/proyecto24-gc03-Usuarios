@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class ClienteDBService {
-
 	private final ClienteDBRepository clienteDBRepository;
 	private final PasswordEncoder passwordEncoder;
 
@@ -28,7 +27,6 @@ public class ClienteDBService {
 		return new Cliente(clienteDB);
 	}
 
-	// Create a new Cliente
 	public boolean createCliente(Cliente cliente) {
 		try {
 			ClienteDB clienteDB = new ClienteDB(cliente);
@@ -36,14 +34,12 @@ public class ClienteDBService {
 
 			clienteDB.setPassword(encodedPassword);
 			clienteDBRepository.save(clienteDB);
-			return true; // Indicate success
+			return true;
 		} catch (Exception e) {
-			// Log exception if needed
-			return false; // Indicate failure
+			return false;
 		}
 	}
 
-	// Update an existing ClienteDB
 	public boolean updateCliente(Integer id, Cliente Cliente) {
 		Optional<ClienteDB> existingCliente = clienteDBRepository.findById(id);
 		if (existingCliente.isPresent()) {
@@ -56,33 +52,29 @@ public class ClienteDBService {
 			updatedClienteDB.setNumeroTarjetaDeCredito(Cliente.getNumeroTarjetaDeCredito());
 			updatedClienteDB.setCcv(Cliente.getCcv());
 
-			clienteDBRepository.save(updatedClienteDB); // Save the updated ClienteDB
-			return true; // Indicate successful update
+			clienteDBRepository.save(updatedClienteDB);
+			return true;
 		}
-		return false; // Indicate that the Cliente was not found
+		return false;
 	}
 
-	// Read (find by ID)
 	public Optional<Cliente> findClienteById(Integer id) {
 		Optional<ClienteDB> ClienteDBOptional = clienteDBRepository.findById(id);
-		return ClienteDBOptional.map(this::convertToCliente); // Convert if present
+		return ClienteDBOptional.map(this::convertToCliente);
 	}
 
-	// Read (find all)
 	public List<Cliente> findAllClientes() {
 		List<ClienteDB> ClienteDBs = (List<ClienteDB>) clienteDBRepository.findAll();
-		return ClienteDBs.stream().map(this::convertToCliente) // Convert each ClienteDB to Cliente
+		return ClienteDBs.stream().map(this::convertToCliente)
 				.collect(Collectors.toList());
 	}
 
-	// Delete by ID
 	public boolean deleteClienteById(Integer id) {
 		Optional<ClienteDB> Cliente = clienteDBRepository.findById(id);
 		if (Cliente.isPresent()) {
-			clienteDBRepository.deleteById(id); // Delete the ClienteDB from the repository
-			return true; // Indicate successful deletion
+			clienteDBRepository.deleteById(id);
+			return true;
 		}
-		return false; // Indicate that the Cliente was not found
+		return false;
 	}
-
 }

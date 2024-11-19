@@ -51,26 +51,26 @@ public class CustomUserDetailsService implements UserDetailsService {
         throw new UsernameNotFoundException("Usuario no encontrado con el correo: " + email);
     }
 
-    public void updatePassword(String email, String newPassword) throws UsernameNotFoundException {
+    public boolean updatePassword(String email, String newPassword) throws UsernameNotFoundException {
         AdministradorDB administrador = administradorDBRepository.findByEmail(email);
         if (administrador != null) {
             administrador.setPassword(passwordEncoder.encode(newPassword));
             administradorDBRepository.save(administrador);
-            return;
+            return true;
         }
 
         GestorDB gestor = gestorDBRepository.findByEmail(email);
         if (gestor != null) {
             gestor.setPassword(passwordEncoder.encode(newPassword));
             gestorDBRepository.save(gestor);
-            return;
+            return true;
         }
 
         ClienteDB cliente = clienteDBRepository.findByEmail(email);
         if (cliente != null) {
             cliente.setPassword(passwordEncoder.encode(newPassword));
             clienteDBRepository.save(cliente);
-            return;
+            return true;
         }
 
         throw new UsernameNotFoundException("Usuario no encontrado con el correo: " + email);

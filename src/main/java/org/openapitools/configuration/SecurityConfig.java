@@ -39,18 +39,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/authenticate", "/register", "/reset-password").permitAll()
-                .antMatchers(HttpMethod.POST, "/authenticate", "/StreamHub/clientes/register", "/request").permitAll()
+                .antMatchers("/authenticate", "/register", "/reset-password").permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/swagger-resources/**",
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/webjars/**"
                 ).permitAll()
-                .antMatchers("/StreamHub/admin/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/StreamHub/admin/**").hasAuthority("ROLE_ADMINISTRADOR")
-                .antMatchers(HttpMethod.POST, "/StreamHub/admin/**").hasAuthority("ROLE_ADMINISTRADOR")
-                .antMatchers(HttpMethod.GET, "/StreamHub/gestores/**").hasAuthority("ROLE_ADMINISTRADOR")
+                .antMatchers("/StreamHub/administrador/**").hasAuthority("ROLE_ADMINISTRADOR")
+                .antMatchers("/StreamHub/gestor/**").hasAuthority("ROLE_GESTOR")
+                .antMatchers("/StreamHub/cliente/**").hasAuthority("ROLE_CLIENTE")
+                // Permitir a todos los usuarios acceder a los endpoints de listar usuarios
+                .antMatchers("/StreamHub/administradores").permitAll()
+                .antMatchers("/StreamHub/gestores").permitAll()
+                .antMatchers("/StreamHub/clientes").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

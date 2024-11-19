@@ -8,7 +8,6 @@ import org.openapitools.model.PasswordResetRequest;
 import org.openapitools.service.CustomUserDetailsService;
 import org.openapitools.service.EmailService;
 import org.openapitools.util.JwtUtil;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,15 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil,
+    public AuthController(JwtUtil jwtUtil,
                           CustomUserDetailsService userDetailsService, PasswordEncoder passwordEncoder, EmailService emailService) {
-        this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
@@ -83,8 +80,10 @@ public class AuthController {
 
         System.out.println("New Password: " + passwordResetRequest.getNewPassword());
 
-        userDetailsService.updatePassword(email, passwordResetRequest.getNewPassword());
-
-        return "Contraseña restablecida con éxito.";
+        if(userDetailsService.updatePassword(email, passwordResetRequest.getNewPassword())) {
+            return "Contraseña restablecida con éxito.";
+        } else {
+            return "Error al restablecer la contraseña.";
+        }
     }
 }

@@ -43,25 +43,25 @@ public interface AdminApi {
      * @return Lista de administradores obtenida exitosamente. (status code 200)
      */
     @Operation(
-        operationId = "adminGet",
-        summary = "Obtener todos los administradores",
-        description = "Devuelve una lista de todos los administradores.",
-        tags = { "Administradores" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Lista de administradores obtenida exitosamente.", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Administrador.class)))
-            })
-        }
+            operationId = "adminGet",
+            summary = "Obtener todos los administradores",
+            description = "Devuelve una lista de todos los administradores.",
+            tags = {"Administradores"},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Lista de administradores obtenida exitosamente.", content = {
+                            @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Administrador.class)))
+                    })
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/admin",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/administradores",
+            produces = {"application/json"}
     )
-    
+
     default ResponseEntity<List<Administrador>> adminGet() {
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "[ { \"apellidos\" : \"apellidos\", \"password\" : \"password\", \"fecha_de_nacimiento\" : \"DD/MM/AAAA\", \"id\" : 0, \"nombre\" : \"nombre\", \"email\" : \"nombre@email.com\" }, { \"apellidos\" : \"apellidos\", \"password\" : \"password\", \"fecha_de_nacimiento\" : \"DD/MM/AAAA\", \"id\" : 0, \"nombre\" : \"nombre\", \"email\" : \"nombre@email.com\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
@@ -80,25 +80,25 @@ public interface AdminApi {
      *
      * @param idDeUsuario ID del administrador. (required)
      * @return Administrador borrado exitosamente. (status code 204)
-     *         or Administrador no encontrado. (status code 404)
+     * or Administrador no encontrado. (status code 404)
      */
     @Operation(
-        operationId = "adminIdDeUsuarioDelete",
-        summary = "Borrar un administrador",
-        description = "Borra un administrador específico por su ID.",
-        tags = { "Administradores" },
-        responses = {
-            @ApiResponse(responseCode = "204", description = "Administrador borrado exitosamente."),
-            @ApiResponse(responseCode = "404", description = "Administrador no encontrado.")
-        }
+            operationId = "adminIdDeUsuarioDelete",
+            summary = "Borrar un administrador",
+            description = "Borra un administrador específico por su ID.",
+            tags = {"Administradores"},
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Administrador borrado exitosamente."),
+                    @ApiResponse(responseCode = "404", description = "Administrador no encontrado.")
+            }
     )
     @RequestMapping(
-        method = RequestMethod.DELETE,
-        value = "/admin/{id_de_usuario}"
+            method = RequestMethod.DELETE,
+            value = "/administrador/{id_de_usuario}"
     )
-    
+
     default ResponseEntity<Void> adminIdDeUsuarioDelete(
-        @Parameter(name = "id_de_usuario", description = "ID del administrador.", required = true, in = ParameterIn.PATH) @PathVariable("id_de_usuario") Integer idDeUsuario
+            @Parameter(name = "id_de_usuario", description = "ID del administrador.", required = true, in = ParameterIn.PATH) @PathVariable("id_de_usuario") Integer idDeUsuario
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -111,31 +111,31 @@ public interface AdminApi {
      *
      * @param idDeUsuario ID del administrador. (required)
      * @return Detalles del administrador obtenidos exitosamente. (status code 200)
-     *         or Administrador no encontrado. (status code 404)
+     * or Administrador no encontrado. (status code 404)
      */
     @Operation(
-        operationId = "adminIdDeUsuarioGet",
-        summary = "Obtener detalles de un administrador",
-        description = "Devuelve los detalles de un administrador por su ID.",
-        tags = { "Administradores" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Detalles del administrador obtenidos exitosamente.", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Administrador.class))
-            }),
-            @ApiResponse(responseCode = "404", description = "Administrador no encontrado.")
-        }
+            operationId = "adminIdDeUsuarioGet",
+            summary = "Obtener detalles de un administrador",
+            description = "Devuelve los detalles de un administrador por su ID.",
+            tags = {"Administradores"},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Detalles del administrador obtenidos exitosamente.", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = Administrador.class))
+                    }),
+                    @ApiResponse(responseCode = "404", description = "Administrador no encontrado.")
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/admin/{id_de_usuario}",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/administrador/{id_de_usuario}",
+            produces = {"application/json"}
     )
-    
+
     default ResponseEntity<Administrador> adminIdDeUsuarioGet(
-        @Parameter(name = "id_de_usuario", description = "ID del administrador.", required = true, in = ParameterIn.PATH) @PathVariable("id_de_usuario") Integer idDeUsuario
+            @Parameter(name = "id_de_usuario", description = "ID del administrador.", required = true, in = ParameterIn.PATH) @PathVariable("id_de_usuario") Integer idDeUsuario
     ) {
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "{ \"apellidos\" : \"apellidos\", \"password\" : \"password\", \"fecha_de_nacimiento\" : \"DD/MM/AAAA\", \"id\" : 0, \"nombre\" : \"nombre\", \"email\" : \"nombre@email.com\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
@@ -152,30 +152,30 @@ public interface AdminApi {
      * PUT /admin/{id_de_usuario} : Actualizar credenciales de un administrador
      * Actualiza las credenciales de un administrador
      *
-     * @param idDeUsuario ID del administrador específico. (required)
-     * @param administrador  (required)
+     * @param idDeUsuario   ID del administrador específico. (required)
+     * @param administrador (required)
      * @return Credenciales actualizadas exitosamente. (status code 200)
-     *         or Datos inválidos proporcionados. (status code 400)
+     * or Datos inválidos proporcionados. (status code 400)
      */
     @Operation(
-        operationId = "adminIdDeUsuarioPut",
-        summary = "Actualizar credenciales de un administrador",
-        description = "Actualiza las credenciales de un administrador",
-        tags = { "Administradores" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Credenciales actualizadas exitosamente."),
-            @ApiResponse(responseCode = "400", description = "Datos inválidos proporcionados.")
-        }
+            operationId = "adminIdDeUsuarioPut",
+            summary = "Actualizar credenciales de un administrador",
+            description = "Actualiza las credenciales de un administrador",
+            tags = {"Administradores"},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Credenciales actualizadas exitosamente."),
+                    @ApiResponse(responseCode = "400", description = "Datos inválidos proporcionados.")
+            }
     )
     @RequestMapping(
-        method = RequestMethod.PUT,
-        value = "/admin/{id_de_usuario}",
-        consumes = { "application/json" }
+            method = RequestMethod.PUT,
+            value = "/administrador/{id_de_usuario}",
+            consumes = {"application/json"}
     )
-    
+
     default ResponseEntity<Void> adminIdDeUsuarioPut(
-        @Parameter(name = "id_de_usuario", description = "ID del administrador específico.", required = true, in = ParameterIn.PATH) @PathVariable("id_de_usuario") Integer idDeUsuario,
-        @Parameter(name = "Administrador", description = "", required = true) @Valid @RequestBody Administrador administrador
+            @Parameter(name = "id_de_usuario", description = "ID del administrador específico.", required = true, in = ParameterIn.PATH) @PathVariable("id_de_usuario") Integer idDeUsuario,
+            @Parameter(name = "Administrador", description = "", required = true) @Valid @RequestBody Administrador administrador
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -186,31 +186,30 @@ public interface AdminApi {
      * POST /admin : Crear un nuevo administrador
      * Da de alta un nuevo administrador en la aplicación.
      *
-     * @param administrador  (required)
+     * @param administrador (required)
      * @return Administrador creado exitosamente. (status code 201)
-     *         or Datos inválidos proporcionados. (status code 400)
+     * or Datos inválidos proporcionados. (status code 400)
      */
     @Operation(
-        operationId = "adminPost",
-        summary = "Crear un nuevo administrador",
-        description = "Da de alta un nuevo administrador en la aplicación.",
-        tags = { "Administradores" },
-        responses = {
-            @ApiResponse(responseCode = "201", description = "Administrador creado exitosamente."),
-            @ApiResponse(responseCode = "400", description = "Datos inválidos proporcionados.")
-        }
+            operationId = "adminPost",
+            summary = "Crear un nuevo administrador",
+            description = "Da de alta un nuevo administrador en la aplicación.",
+            tags = {"Administradores"},
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Administrador creado exitosamente."),
+                    @ApiResponse(responseCode = "400", description = "Datos inválidos proporcionados.")
+            }
     )
     @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/admin",
-        consumes = { "application/json" }
+            method = RequestMethod.POST,
+            value = "/administrador",
+            consumes = {"application/json"}
     )
-    
+
     default ResponseEntity<Void> adminPost(
-        @Parameter(name = "Administrador", description = "", required = true) @Valid @RequestBody Administrador administrador
+            @Parameter(name = "Administrador", description = "", required = true) @Valid @RequestBody Administrador administrador
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
-
 }

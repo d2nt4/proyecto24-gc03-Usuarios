@@ -69,7 +69,7 @@ public interface ClientesApi {
      * or Cliente no encontrado. (status code 404)
      */
     @Operation(operationId = "clientesIdDeUsuarioDelete", summary = "Borrar un cliente", description = "Borra un cliente específico por su ID.", tags = {"Clientes"}, responses = {@ApiResponse(responseCode = "204", description = "Cliente borrado exitosamente."), @ApiResponse(responseCode = "404", description = "Cliente no encontrado.")})
-    @RequestMapping(method = RequestMethod.DELETE, value = "/clientes/{id_de_usuario}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/cliente/{id_de_usuario}")
 
     default ResponseEntity<Void> clientesIdDeUsuarioDelete(@Parameter(name = "id_de_usuario", description = "ID del cliente.", required = true, in = ParameterIn.PATH) @PathVariable("id_de_usuario") Integer idDeUsuario) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -86,7 +86,7 @@ public interface ClientesApi {
      * or Cliente no encontrado. (status code 404)
      */
     @Operation(operationId = "clientesIdDeUsuarioGet", summary = "Obtener detalles de un cliente", description = "Devuelve los detalles de un cliente por su ID.", tags = {"Clientes"}, responses = {@ApiResponse(responseCode = "200", description = "Detalles del cliente obtenidos exitosamente.", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Cliente.class))}), @ApiResponse(responseCode = "404", description = "Cliente no encontrado.")})
-    @RequestMapping(method = RequestMethod.GET, value = "/clientes/{id_de_usuario}", produces = {"application/json"})
+    @RequestMapping(method = RequestMethod.GET, value = "/cliente/{id_de_usuario}", produces = {"application/json"})
 
     default ResponseEntity<Cliente> clientesIdDeUsuarioGet(@Parameter(name = "id_de_usuario", description = "ID del cliente.", required = true, in = ParameterIn.PATH) @PathVariable("id_de_usuario") Integer idDeUsuario) {
         getRequest().ifPresent(request -> {
@@ -113,7 +113,7 @@ public interface ClientesApi {
      * or Datos inválidos proporcionados. (status code 400)
      */
     @Operation(operationId = "clientesIdDeUsuarioPut", summary = "Actualizar datos de un cliente", description = "Actualiza los datos de un cliente específico.", tags = {"Clientes"}, responses = {@ApiResponse(responseCode = "200", description = "Datos del cliente actualizados exitosamente."), @ApiResponse(responseCode = "400", description = "Datos inválidos proporcionados.")})
-    @RequestMapping(method = RequestMethod.PUT, value = "/clientes/{id_de_usuario}", consumes = {"application/json"})
+    @RequestMapping(method = RequestMethod.PUT, value = "/cliente/{id_de_usuario}", consumes = {"application/json"})
 
     default ResponseEntity<Void> clientesIdDeUsuarioPut(@Parameter(name = "id_de_usuario", description = "ID del cliente.", required = true, in = ParameterIn.PATH) @PathVariable("id_de_usuario") Integer idDeUsuario, @Parameter(name = "Cliente", description = "", required = true) @Valid @RequestBody Cliente cliente) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -130,7 +130,7 @@ public interface ClientesApi {
      * or Datos inválidos proporcionados. (status code 400)
      */
     @Operation(operationId = "clientesPost", summary = "Crear un nuevo cliente", description = "Da de alta un nuevo cliente en la aplicación.", tags = {"Clientes"}, responses = {@ApiResponse(responseCode = "201", description = "Cliente creado exitosamente."), @ApiResponse(responseCode = "400", description = "Datos inválidos proporcionados.")})
-    @RequestMapping(method = RequestMethod.POST, value = "/clientes", consumes = {"application/json"})
+    @RequestMapping(method = RequestMethod.POST, value = "/cliente", consumes = {"application/json"})
 
     default ResponseEntity<Void> clientesPost(@Parameter(name = "Cliente", description = "", required = true) @Valid @RequestBody Cliente cliente) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

@@ -44,6 +44,26 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(username);
 
             if (jwtUtil.isTokenValid(jwt, userDetails.getUsername(), userId)) {
+                String requestURI = request.getRequestURI();
+                String[] uriParts = requestURI.split("/");
+                Long userIdFromUri = null;
+
+                System.out.println("Request URI: " + requestURI);
+                System.out.println("User ID from token: " + userId);
+
+                try {
+                    userIdFromUri = Long.parseLong(uriParts[uriParts.length - 1]);
+                    System.out.println("User ID from URI: " + userIdFromUri);
+
+                    if (!userId.equals(userIdFromUri)) {
+                        response.sendError(HttpServletResponse.SC_FORBIDDEN, "El ID del usuario no coincide con el token.");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El ID del usuario en la URL no es válido.");
+                    return;
+                }
+
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -52,9 +72,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 System.out.println("Asignando Authorities en JwtRequestFilter: " + authToken.getAuthorities());
             }
         }
-        // Verificar si el SecurityContext se mantiene antes de la solicitud
-        System.out.println("Antes de la solicitud - Authorities: " + SecurityContextHolder.getContext().getAuthentication());
         chain.doFilter(request, response);
-        System.out.println("Después de la solicitud - Authorities: " + SecurityContextHolder.getContext().getAuthentication());
     }
 }

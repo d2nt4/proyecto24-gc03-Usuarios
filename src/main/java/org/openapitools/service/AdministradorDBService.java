@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @Service
 public class AdministradorDBService {
     private final AdministradorDBRepository adminDBRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -27,7 +26,6 @@ public class AdministradorDBService {
         return new Administrador(adminDB);
     }
 
-    // Crear un Administrador
     public boolean postAdministrador(Administrador admin) {
         try {
             AdministradorDB adminDB = new AdministradorDB(admin);
@@ -35,14 +33,13 @@ public class AdministradorDBService {
 
             adminDB.setPassword(encodedPassword);
             adminDBRepository.save(adminDB);
-            return true; // Devuelve verdadero si se ha creado correctamente
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false; // Devuelve falso si ha habido un error
+            return false;
         }
     }
 
-    // Actualizar un Administrador
     public boolean updateAdministrador(Integer id, Administrador admin) {
         Optional<AdministradorDB> existingAdmin = adminDBRepository.findById(id);
         if (existingAdmin.isPresent()) {
@@ -54,18 +51,16 @@ public class AdministradorDBService {
             updatedAdminDB.setPassword(admin.getPassword());
 
             adminDBRepository.save(updatedAdminDB);
-            return true; // Devuelve verdadero si se ha actualizado correctamente
+            return true;
         }
-        return false; //Devuelve falso si no se ha encontrado el administrador
+        return false;
     }
 
-    // Buscar por ID
     public Optional<Administrador> getAdministradorById(Integer id) {
         Optional<AdministradorDB> adminDBOptional = adminDBRepository.findById(id);
         return adminDBOptional.map(this::convertToAdministrador);
     }
 
-    // Obtener todos los administradores
     public List<Administrador> getAllAdministradores() {
         List<AdministradorDB> listaAdminsDB = (List<AdministradorDB>) adminDBRepository.findAll();
         return listaAdminsDB.stream()
@@ -73,17 +68,15 @@ public class AdministradorDBService {
                 .collect(Collectors.toList());
     }
 
-    // Borra por ID
     public boolean deleteAdministradorById(Integer id) {
         Optional<AdministradorDB> admin = adminDBRepository.findById(id);
         if (admin.isPresent()) {
             adminDBRepository.deleteById(id);
-            return true; // Devuelve verdadero si se ha borrado correctamente
+            return true;
         }
-        return false; // Devuelve falso si no se ha encontrado el administrador
+        return false;
     }
 
-    // Borra una entidad de administrador
     public void deleteAdministrador(AdministradorDB admin) {
         adminDBRepository.delete(admin);
     }
