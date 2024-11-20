@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authenticate", "/register", "/reset-password").permitAll()
+                .antMatchers("/authenticate", "/register", "/request", "/reset-password").permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/swagger-resources/**",
                         "/swagger-ui/**",
@@ -49,10 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/StreamHub/administrador/**").hasAuthority("ROLE_ADMINISTRADOR")
                 .antMatchers("/StreamHub/gestor/**").hasAuthority("ROLE_GESTOR")
                 .antMatchers("/StreamHub/cliente/**").hasAuthority("ROLE_CLIENTE")
-                // Permitir a todos los usuarios acceder a los endpoints de listar usuarios
-                .antMatchers("/StreamHub/administradores").permitAll()
-                .antMatchers("/StreamHub/gestores").permitAll()
-                .antMatchers("/StreamHub/clientes").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
