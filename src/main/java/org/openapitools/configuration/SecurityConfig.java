@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/StreamHub/cliente/**").hasAuthority("ROLE_CLIENTE") // Ruta para clientes
                 .antMatchers(HttpMethod.GET, "/StreamHub/administradores").hasAuthority("ROLE_ADMINISTRADOR") // Ruta para obtener todos los administradores
                 .antMatchers(HttpMethod.GET, "/StreamHub/gestores").hasAuthority("ROLE_ADMINISTRADOR") // Ruta para obtener todos los gestores
-                .antMatchers("/StreamHub/gestor/**").hasAuthority("ROLE_ADMINISTRADOR") // Ruta para gestionar gestores
+                .antMatchers("/StreamHub/gestor/**").hasAnyAuthority("ROLE_GESTOR", "ROLE_ADMINISTRADOR") // Ruta para gestionar gestores
                 .anyRequest().authenticated() // Cualquier otra ruta requiere autenticación
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
