@@ -46,22 +46,22 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             if (jwtUtil.isTokenValid(jwt, userDetails.getUsername(), userId)) {
                 String requestURI = request.getRequestURI();
                 String[] uriParts = requestURI.split("/");
-                Long userIdFromUri = null;
+                long userIdFromUri;
 
-                System.out.println("Request URI: " + requestURI);
-                System.out.println("User ID from token: " + userId);
+                boolean requiresIdValidation = requestURI.matches(".*/(administradores|gestores|clientes)/$");
 
-                try {
-                    userIdFromUri = Long.parseLong(uriParts[uriParts.length - 1]);
-                    System.out.println("User ID from URI: " + userIdFromUri);
+                if (requiresIdValidation) {
+                    try {
+                        userIdFromUri = Long.parseLong(uriParts[uriParts.length - 1]);
 
-                    if (!userId.equals(userIdFromUri)) {
-                        response.sendError(HttpServletResponse.SC_FORBIDDEN, "El ID del usuario no coincide con el token.");
+                        if (!userId.equals(userIdFromUri)) {
+                            response.sendError(HttpServletResponse.SC_FORBIDDEN, "El ID del usuario no coincide con el token.");
+                            return;
+                        }
+                    } catch (NumberFormatException e) {
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El ID del usuario en la URL no es válido.");
                         return;
                     }
-                } catch (NumberFormatException e) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El ID del usuario en la URL no es válido.");
-                    return;
                 }
 
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -69,7 +69,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-                System.out.println("Asignando Authorities en JwtRequestFilter: " + authToken.getAuthorities());
             }
         }
         chain.doFilter(request, response);
