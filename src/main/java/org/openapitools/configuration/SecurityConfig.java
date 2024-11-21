@@ -45,11 +45,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/webjars/**"
-                ).permitAll()
-                .antMatchers("/StreamHub/administrador/**").hasAuthority("ROLE_ADMINISTRADOR")
-                .antMatchers("/StreamHub/gestor/**").hasAuthority("ROLE_GESTOR")
-                .antMatchers("/StreamHub/cliente/**").hasAuthority("ROLE_CLIENTE")
-                .anyRequest().authenticated()
+                ).permitAll() // Permitir acceso a Swagger
+                .antMatchers("/StreamHub/administrador/**").hasAuthority("ROLE_ADMINISTRADOR") // Ruta para administradores
+                .antMatchers("/StreamHub/gestor/**").hasAuthority("ROLE_GESTOR") // Ruta para gestores
+                .antMatchers(HttpMethod.POST, "/StreamHub/cliente").permitAll() // Ruta para crear un cliente
+                .antMatchers("/StreamHub/cliente/**").hasAuthority("ROLE_CLIENTE") // Ruta para clientes
+                .antMatchers(HttpMethod.GET, "/StreamHub/administradores").hasAuthority("ROLE_ADMINISTRADOR") // Ruta para obtener todos los administradores
+                .antMatchers(HttpMethod.GET, "/StreamHub/gestores").hasAuthority("ROLE_ADMINISTRADOR") // Ruta para obtener todos los gestores
+                .antMatchers("/StreamHub/gestor/**").hasAuthority("ROLE_ADMINISTRADOR") // Ruta para gestionar gestores
+                .anyRequest().authenticated() // Cualquier otra ruta requiere autenticación
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
