@@ -1,1 +1,2 @@
-# proyecto24-gc03-Usuarios
+# Streamhub
+La mejor app para visualización de contenidos audiovisuales.
